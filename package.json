@@ -1,0 +1,24 @@
+{
+  "name": "home_automation_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "dependencies": {
+    "express": "^4.16.2",
+    "ws": "^4.0.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamzanasir/home_automation_app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamzanasir/home_automation_app/issues"
+  },
+  "homepage": "https://github.com/hamzanasir/home_automation_app#readme"
+}
