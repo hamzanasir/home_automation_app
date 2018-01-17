@@ -5,7 +5,7 @@
   "main": "app.js",
   "dependencies": {
     "express": "^4.16.2",
-    "ws": "^4.0.0"
+    "tplink-smarthome-api": "^0.22.0"
   },
   "devDependencies": {},
   "scripts": {
