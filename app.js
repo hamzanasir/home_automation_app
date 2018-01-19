@@ -1,15 +1,46 @@
+require('dotenv').load();
 var express = require('express')
+const bodyParser = require('body-parser');
+const session = require('express-session');
 var app = express()
 
 const { Client } = require('tplink-smarthome-api');
 const client = new Client();
 const plugHost = ['192.168.0.26', '192.168.0.27'];
 
-app.get('/', function (req, res) {
-  res.sendFile(__dirname + '/index.html');
-})
+app.use(express.static(`${__dirname}/public`));
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 120000 },
+}));
 
-app.get('/plugs/auth/:plug', function (req, res) {
+function authenticate(req, res, next) {
+  if (req.session.userid !== process.env.USER || req.session.password !== process.env.PASSWD) {
+    res.redirect('/login');
+  } else {
+    next();
+  }
+};
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get('/', authenticate, function (req, res) {
+  res.sendFile(__dirname + '/static/index.html');
+});
+
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/static/login.html');
+});
+
+app.post('/login', (req, res) => {
+  req.session.userid = req.body.userid;
+  req.session.password = req.body.password;
+  res.redirect('/');
+});
+
+app.get('/plugs/:plug', authenticate, function (req, res) {
   const plug = client.getDevice({host: plugHost[parseInt(req.params.plug) - 1]})
     .then((device) => {
         device.getSysInfo()
