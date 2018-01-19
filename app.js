@@ -17,7 +17,7 @@ app.use(session({
 }));
 
 function authenticate(req, res, next) {
-  if (req.session.userid !== process.env.USER || req.session.password !== process.env.PASSWD) {
+  if (req.session.userid !== process.env.ADMINU || req.session.password !== process.env.ADMINP) {
     res.redirect('/login');
   } else {
     next();
