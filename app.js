@@ -9,7 +9,7 @@ app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 })
 
-app.get('/plugs/:plug', function (req, res) {
+app.get('/plugs/auth/:plug', function (req, res) {
   const plug = client.getDevice({host: plugHost[parseInt(req.params.plug) - 1]})
     .then((device) => {
         device.getSysInfo()
