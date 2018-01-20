@@ -2,6 +2,7 @@ require('dotenv').load();
 var express = require('express')
 const bodyParser = require('body-parser');
 const session = require('express-session');
+var sensor = require('node-dht-sensor');
 var app = express()
 
 const { Client } = require('tplink-smarthome-api');
@@ -61,6 +62,22 @@ app.get('/plugs/:plug', authenticate, function (req, res) {
     .catch((err) => {
       res.send(err)
     })
+});
+
+app.get('/sensor', function (req, res) {
+  sensor.read(22, 2, function(err, temperature, humidity) {
+      if (!err) {
+          console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
+              'humidity: ' + humidity.toFixed(1) + '%'
+          );
+          res.send({
+            temperature: `${temperature.toFixed(1)}°C`,
+            humidity: `${humidity.toFixed(1)}%`
+          });
+      } else {
+        res.send({ error: 'An error occured while getting sesnor data' });
+      }
+  });
 });
 
 app.listen(3000, '0.0.0.0', function () {
