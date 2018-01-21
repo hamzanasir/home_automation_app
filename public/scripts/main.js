@@ -22,9 +22,8 @@ $(document).ready(function() {
 
   $('input').on('click', function() {
     const plug = $(this).data('plug');
-    const domplug = plug === 2 ? 1 : 2;
     $.post(`/plugs/${plug}`, function(data) {
-      flipSwitch(domplug, data.powerState);
+      flipSwitch(plug, data.powerState === true ? 0 : 1);
     });
   });
 
