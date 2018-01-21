@@ -14,7 +14,7 @@ app.use(session({
   secret: 'keyboard cat',
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 120000 },
+  cookie: { maxAge: 86400000 },
 }));
 
 function authenticate(req, res, next) {
