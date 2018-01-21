@@ -41,7 +41,15 @@ app.post('/login', (req, res) => {
   res.redirect('/');
 });
 
-app.get('/plugs/:plug', authenticate, function (req, res) {
+app.get('/plugs/:plug', function (req, res) {
+  const plug = client.getDevice({host: plugHost[parseInt(req.params.plug) - 1]}).then((device) => {
+    device.getSysInfo().then((data) => {
+      res.send({powerState: data.relay_state, time: data.on_time});
+    });
+  });
+});
+
+app.post('/plugs/:plug', authenticate, function (req, res) {
   const plug = client.getDevice({host: plugHost[parseInt(req.params.plug) - 1]})
     .then((device) => {
         device.getSysInfo()
@@ -67,9 +75,6 @@ app.get('/plugs/:plug', authenticate, function (req, res) {
 app.get('/sensor', function (req, res) {
   sensor.read(22, 2, function(err, temperature, humidity) {
       if (!err) {
-          console.log('temp: ' + temperature.toFixed(1) + '°C, ' +
-              'humidity: ' + humidity.toFixed(1) + '%'
-          );
           res.send({
             temperature: `${temperature.toFixed(1)}°C`,
             humidity: `${humidity.toFixed(1)}%`
