@@ -24,7 +24,7 @@ $(document).ready(function() {
     const plug = $(this).data('plug');
     const domplug = plug === 2 ? 1 : 2;
     $.post(`/plugs/${plug}`, function(data) {
-      flipSwitch(plug, data.powerState);
+      flipSwitch(domplug, data.powerState);
     });
   });
 
