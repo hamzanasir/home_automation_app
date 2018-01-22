@@ -11,7 +11,7 @@ const plugHost = ['192.168.0.26', '192.168.0.27'];
 
 app.use(express.static(`${__dirname}/public`));
 app.use(session({
-  secret: 'keyboard cat',
+  secret: process.env.sessionSecret,
   resave: false,
   saveUninitialized: false,
   cookie: { maxAge: 86400000 },
